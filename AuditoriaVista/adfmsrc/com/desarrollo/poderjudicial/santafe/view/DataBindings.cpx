@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://xmlns.oracle.com/adfm/application" version="12.2.1.9.14" id="DataBindings"
+             SeparateXMLFiles="false" Package="com.desarrollo.poderjudicial.santafe.view" ClientType="Generic">
+  <pageMap>
+    <page path="/gestionAuditoria.jspx" usageId="com_desarrollo_poderjudicial_santafe_view_gestionAuditoriaPageDef"/>
+  </pageMap>
+  <pageDefinitionUsages>
+    <page id="com_desarrollo_poderjudicial_santafe_view_gestionAuditoriaPageDef"
+          path="com.desarrollo.poderjudicial.santafe.view.pageDefs.gestionAuditoriaPageDef"/>
+  </pageDefinitionUsages>
+  <dataControlUsages>
+    <dc id="AuditoriaSessionEJBBean" path="com.desarrollo.poderjudicial.santafe.model.AuditoriaSessionEJBBean"/>
+  </dataControlUsages>
+</Application>

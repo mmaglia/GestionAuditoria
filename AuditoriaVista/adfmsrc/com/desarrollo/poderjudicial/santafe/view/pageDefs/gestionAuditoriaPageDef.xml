@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="12.2.1.9.14" id="gestionAuditoriaPageDef"
+                Package="com.desarrollo.poderjudicial.santafe.view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+  </executables>
+  <bindings>
+    <methodAction id="obtenerTablasAuditables" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="obtenerTablasAuditables" IsViewObjectMethod="false" DataControl="AuditoriaSessionEJBBean"
+                  InstanceName="bindings.obtenerTablasAuditables.dataControl.dataProvider"
+                  ReturnName="data.AuditoriaSessionEJBBean.methodResults.obtenerTablasAuditables_obtenerTablasAuditables_dataControl_dataProvider_obtenerTablasAuditables_result">
+      <events xmlns="http://xmlns.oracle.com/adfm/contextualEvent"/>
+    </methodAction>
+    <methodAction id="auditarNuevaTabla" RequiresUpdateModel="true" Action="invokeMethod" MethodName="auditarNuevaTabla"
+                  IsViewObjectMethod="false" DataControl="AuditoriaSessionEJBBean"
+                  InstanceName="bindings.auditarNuevaTabla.dataControl.dataProvider"
+                  ReturnName="data.AuditoriaSessionEJBBean.methodResults.auditarNuevaTabla_auditarNuevaTabla_dataControl_dataProvider_auditarNuevaTabla_result">
+      <NamedData NDName="nombreTabla" NDType="java.lang.String"/>
+    </methodAction>
+    <methodAction id="desactivarAuditoria" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="desactivarAuditoria" IsViewObjectMethod="false" DataControl="AuditoriaSessionEJBBean"
+                  InstanceName="bindings.desactivarAuditoria.dataControl.dataProvider"
+                  ReturnName="data.AuditoriaSessionEJBBean.methodResults.desactivarAuditoria_desactivarAuditoria_dataControl_dataProvider_desactivarAuditoria_result">
+      <NamedData NDName="nombreTabla" NDType="java.lang.String"/>
+      <NamedData NDName="borrarDatosHistoricos" NDType="java.lang.Boolean"/>
+    </methodAction>
+  </bindings>
+</pageDefinition>

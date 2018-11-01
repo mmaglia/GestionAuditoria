@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document title="Poder Judicial de la Provincia de Santa Fe" id="d1">
+            <af:popup id="popupDesactivarAuditoria" contentDelivery="lazyUncached" eventContext="launcher">
+                <af:dialog id="d2" title="Eliminaci&#243;n de Auditoria" helpTopicId="TOPICID_ALL"
+                           dialogListener="#{auditoria.listenerDialogoBorrarAuditoria}" type="yesNo">
+                    <af:panelFormLayout id="pfl1">
+                        <af:outputText id="ot3"
+                                       value="&#191;Desea tamb&#237;en eliminar los datos actuales referidos a esta auditor&#237;a?"></af:outputText>
+                    </af:panelFormLayout>
+                </af:dialog>
+            </af:popup>
+            <af:resource type="css">
+                .nombreTabla {
+                    font-weight: bold;
+                    font-size: 18px;
+                    font-family: 'Helvetica Neue', Arial, sans-serif;
+                }
+
+                .cuantificadores {
+                    font-weight: bold;
+                    font-size: 16px;
+                    font-family: 'Helvetica Neue', Arial, sans-serif;
+                }
+
+                .lista {
+                    font-size: 14px;
+                    font-weight: bold;
+                    padding-left: 100px;
+                }
+
+                .lista ul li {
+                    margin: 0px;
+                }
+            </af:resource>
+            <af:messages id="m1" message="Estees un mensaje"/>
+            <af:serverListener type="onLoadEvent" method="#{auditoria.inicializarListView}"/>
+            <af:clientListener type="load" method="lanzarOnLoad"/>
+            <af:resource type="javascript">
+              function lanzarOnLoad(event) {
+                  AdfCustomEvent.queue(event.getSource(), "onLoadEvent", 
+                  {
+                  },
+                  false);
+                  return true;
+              }
+            </af:resource>
+            <af:form id="f1">
+                <af:panelGridLayout id="pgl2">
+                    <af:gridRow height="60px" id="gr1">
+                        <af:gridCell width="100%" halign="stretch" valign="stretch" id="gc2">
+                            <!-- Header -->
+                            <af:panelStretchLayout id="psl1" startWidth="15%" endWidth="10%">
+                                <f:facet name="start">
+                                    <af:image source="/graphics/logo_pjsf_negro.gif" shortDesc="" id="i1"
+                                              inlineStyle="top: -6px; left:6px;"></af:image>
+                                </f:facet>
+                                <f:facet name="end">
+                                    <af:outputText value="Usuario" id="ot6"/>
+                                </f:facet>
+                                <f:facet name="center">
+                                    <af:outputText value="Gesti&#243;n de Auditor&#237;a" id="ot1"
+                                                   inlineStyle="font-size:xx-large; text-align:center;"/>
+                                </f:facet>
+                            </af:panelStretchLayout>
+                        </af:gridCell>
+                    </af:gridRow>
+                    <af:gridRow height="70%" id="gr2">
+                        <af:gridCell width="100%" halign="stretch" valign="stretch" id="gc1">
+                            <af:decorativeBox theme="dark" id="db1">
+                                <f:facet name="center">
+                                    <af:decorativeBox theme="medium" id="db2">
+                                        <f:facet name="center">
+                                            <af:panelGroupLayout id="pgl1">
+                                                <af:panelGridLayout id="pgl4">
+                                                    <af:gridRow marginTop="0px" height="auto" id="gr6">
+                                                        <af:gridCell marginStart="0px" rowSpan="2" width="30%" id="gc15"
+                                                                     halign="center">
+                                                            <af:link text="Tablas Auditables"
+                                                                     inlineStyle="font-size: 22px; font-weight: bold; margin-left: 10px; color: Black;"
+                                                                     actionListener="#{auditoria.ordenarPorTabla}"
+                                                                     partialSubmit="true" id="l1"/>
+                                                        </af:gridCell>
+                                                        <af:gridCell marginStart="0px" rowSpan="2" width="14%" id="gc16"
+                                                                     halign="center">
+                                                            <af:link text="Auditar" partialSubmit="true"
+                                                                     inlineStyle="font-size: 22px; font-weight: bold; color: Black;"
+                                                                     actionListener="#{auditoria.ordenarPorAuditadas}"
+                                                                     id="l2"/>
+                                                        </af:gridCell>
+                                                        <af:gridCell marginStart="0px" columnSpan="2" id="gc17"
+                                                                     halign="center">
+                                                            <af:outputText value="Registros" id="ot4"
+                                                                           inlineStyle="font-size: 22px; font-weight: bold; color: Black;"/>
+                                                        </af:gridCell>
+                                                        <af:gridCell marginStart="0px" rowSpan="2" width="14%" id="gc18"
+                                                                     halign="center">
+                                                            <af:link text="Espacio (MB)"
+                                                                     shortDesc="Espacio que ocupan todos los registros auditados de la tablaAuditable en la tabla AUDITORIA"
+                                                                     partialSubmit="true"
+                                                                     inlineStyle="font-size: 22px; font-weight: bold; color: Black;"
+                                                                     actionListener="#{auditoria.ordenarPorEspacio}"
+                                                                     id="l3"/>
+                                                        </af:gridCell>
+                                                        <af:gridCell marginStart="0px" rowSpan="2" width="14%"
+                                                                     marginEnd="0px" id="gc19" halign="center">
+                                                            <af:link text="% Impacto" partialSubmit="true"
+                                                                     inlineStyle="font-size: 22px; font-weight: bold; color: Black;"
+                                                                     shortDesc="% de impacto sobre el espacio total disponible"
+                                                                     actionListener="#{auditoria.ordenarPorImpacto}"
+                                                                     id="l4"/>
+                                                        </af:gridCell>
+                                                    </af:gridRow>
+                                                    <af:gridRow marginTop="0px" height="auto" marginBottom="0px"
+                                                                id="gr7">
+                                                        <af:gridCell marginStart="0px" width="14%" id="gc20"
+                                                                     halign="center">
+                                                            <af:link text="Total" partialSubmit="true"
+                                                                     inlineStyle="font-size: 22px; font-weight: bold; color: Black;"
+                                                                     shortDesc="total de registros de la tabla"
+                                                                     actionListener="#{auditoria.ordenarPorTotal}"
+                                                                     id="l5"/>
+                                                        </af:gridCell>
+                                                        <af:gridCell marginStart="10px" width="14%" marginEnd="0px"
+                                                                     halign="center" id="gc21">
+                                                            <af:link text="Auditados" partialSubmit="true"
+                                                                     inlineStyle="font-size: 22px; font-weight: bold; color: Black;"
+                                                                     shortDesc="total de registros auditados de la tabla"
+                                                                     actionListener="#{auditoria.ordenarPorTotalAuditadas}"
+                                                                     id="l6"/>
+                                                        </af:gridCell>
+                                                    </af:gridRow>
+                                                </af:panelGridLayout>
+                                                <af:panelGroupLayout id="pgl7" layout="scroll">
+                                                    <af:listView id="lv1" value="#{auditoria.auditables}"
+                                                                 fetchSize="100" binding="#{auditoria.listView}"
+                                                                 var="item" selection="none">
+                                                        <af:listItem id="li1">
+                                                            <af:panelGridLayout id="pgl3">
+                                                                <af:gridRow id="gr5">
+                                                                    <af:gridCell id="gc7" width="30%" halign="center"
+                                                                                 styleClass="nombreTabla">
+                                                                        <af:outputText value="#{item.nombreTabla}"
+                                                                                       id="ot2"/>
+                                                                    </af:gridCell>
+                                                                    <af:gridCell id="gc8" width="14%" halign="center">
+                                                                        <af:panelGroupLayout id="pgl5"
+                                                                                             layout="horizontal">
+                                                                            <af:button text="Si"
+                                                                                       actionListener="#{auditoria.auditarNuevaTabla}"
+                                                                                       disabled="#{item.isAuditable}"
+                                                                                       id="b1">
+                                                                                <af:setPropertyListener from='#{item.nombreTabla}'
+                                                                                                        to="#{auditoria.filaNombreTabla}"
+                                                                                                        type="action"/>
+                                                                            </af:button>
+                                                                            <af:button text="No" id="b2"
+                                                                                       partialSubmit="true"
+                                                                                       disabled="#{!item.isAuditable}">
+                                                                                <af:setPropertyListener from='#{item.nombreTabla}'
+                                                                                                        to="#{auditoria.filaNombreTabla}"
+                                                                                                        type="action"/>
+                                                                                <af:showPopupBehavior popupId="::popupDesactivarAuditoria"
+                                                                                                      triggerType="click"/>
+                                                                            </af:button>
+                                                                        </af:panelGroupLayout>
+                                                                    </af:gridCell>
+                                                                    <af:gridCell id="gc3" width="14%" halign="center">
+                                                                        <af:outputText styleClass="cuantificadores"
+                                                                                       value='#{item.cantRegistros != null ? item.cantRegistros : "--"}'
+                                                                                       id="ot15"/>
+                                                                    </af:gridCell>
+                                                                    <af:gridCell id="gc10" width="14%" halign="center">
+                                                                        <af:outputText id="ot8"
+                                                                                       styleClass="cuantificadores"
+                                                                                       value='#{item.cantRegistrosAud != null ? item.cantRegistrosAud : "--"}'/>
+                                                                    </af:gridCell>
+                                                                    <af:gridCell id="gc11" width="14%" halign="center">
+                                                                        <af:outputText value='#{item.espacioOcupado != null ? item.espacioOcupado : "--"}'
+                                                                                       id="ot10"
+                                                                                       styleClass="cuantificadores"/>
+                                                                    </af:gridCell>
+                                                                    <af:gridCell id="gc13" width="14%" halign="center">
+                                                                        <af:outputText value='#{item.impacto != null ? item.impacto : "--"}'
+                                                                                       id="ot11"
+                                                                                       styleClass="cuantificadores"/>
+                                                                    </af:gridCell>
+                                                                </af:gridRow>
+                                                            </af:panelGridLayout>
+                                                        </af:listItem>
+                                                    </af:listView>
+                                                </af:panelGroupLayout>
+                                            </af:panelGroupLayout>
+                                        </f:facet>
+                                    </af:decorativeBox>
+                                </f:facet>
+                            </af:decorativeBox>
+                        </af:gridCell>
+                    </af:gridRow>
+                    <af:gridRow id="gr4" height="30%">
+                        <af:gridCell id="gc6" styleClass="lista">
+                            <af:outputText value="Resumen" id="ot12"/>
+                            <af:panelList id="pl1" binding="#{auditoria.panelList}">
+                                <af:outputLabel value="Total de Tablas: #{auditoria.totalTablas}" id="ol1"/>
+                                <af:outputLabel value="Total de Tablas Auditadas: #{auditoria.totalTablasAuditados}"
+                                                id="ol2"/>
+                                <af:outputLabel value="Total de Registros Auditados: #{auditoria.totalRegistrosAuditados}"
+                                                id="ol3"/>
+                                <af:outputLabel value="Porcentaje Total de Impacto: #{auditoria.totalImpacto}"
+                                                id="ol4"/>
+                            </af:panelList>
+                        </af:gridCell>
+                    </af:gridRow>
+                </af:panelGridLayout>
+            </af:form>
+        </af:document>
+    </f:view>
+</jsp:root>
